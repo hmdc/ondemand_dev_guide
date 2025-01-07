@@ -1,0 +1,71 @@
+<h1>Search in Dataverse</h1>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+    img {
+        max-width: 100px;
+        height: auto;
+    }
+    .table-container {
+        overflow-x: auto;
+    }
+</style>
+
+<div class="filter-container">
+  <form method="get" action="">
+    <input type="text" name="title" placeholder="Filter by title" value="<%= params[:title] %>">
+    <button type="submit">Filter</button>
+  </form>
+</div>
+
+<% if @items.any? %>
+<table>
+  <thead>
+  <tr>
+    <th>Image</th>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Global ID</th>
+    <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @items.each do |item| %>
+    <tr>
+      <td>
+        <% if item['image_url'].present? %>
+          <img src="<%= item['image_url'] %>" alt="<%= item['name'] %>">
+        <% else %>
+          No Image
+        <% end %>
+      </td>
+      <td><%= item['name'] %></td>
+      <td><%= item['type'] %></td>
+      <td><%= item['global_id'] %></td>
+      <td><%= truncate(item['description'], length: 50) %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<% end %>
