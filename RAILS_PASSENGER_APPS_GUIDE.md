@@ -4,6 +4,8 @@ This guide is to help create Open OnDemand Passenger apps in Ruby on Rails.
 With these steps, you will be able to create an application from scratch 
 and deploy it in your local environment.
 
+### Rails Sample app
+
 There is a [Rails Sample app](sample_apps/rails_sample) in this repository that you can use as 
 a starting point to create your own app.
 
@@ -115,6 +117,23 @@ Rails.application.routes.draw do
 end
 ```
 
+## Comment conflicting gem
+
+The gem `error_highlight` installed by default was causing issues when the application was deployed as a passenger app. 
+You can comment the gem declaration in the `Gemfile`:
+
+```ruby
+#...
+group :development do
+# Use console on exceptions pages [https://github.com/rails/web-console]
+gem "web-console"
+
+# Highlight the fine-grained location where an error occurred [https://github.com/ruby/error_highlight]
+#gem "error_highlight", ">= 0.4.0", platforms: [ :ruby ]
+end
+#...
+```
+
 ## Precompile assets
 
 The application will be run under OnDemand as production mode, so, we need to generate the assets to make the application work in that environment. Do this every time you update the assets:
@@ -122,3 +141,110 @@ The application will be run under OnDemand as production mode, so, we need to ge
 ```bash
 rake assets:precompile
 ```
+
+### Rails Passenger app deployment scripts
+
+It is assumed that you are working with the repository [ondemand_development](https://github.com/hmdc/ondemand_development) to
+run Open OnDemand with its plugins and Passenger apps locally. To deploy the 
+Passenger app in Open OnDemand, you can add a [Makefile](https://github.com/hmdc/ondemand_development/blob/main/Makefile) 
+entry and a `prototype.sh` script in that repository to move the application to 
+the right folder and install the gems under the scope of the Rocky 8 Linux OS 
+container image used in the production Open OnDemand.
+
+### Makefile entry
+
+```Makefile
+build_rails_prototype:
+	# BUILD OOD WITH ROCKY8 IMAGE
+	cp -R ../ondemand_dev_guide/sample_apps/rails_sample ondemand/apps/ood_prototype
+	docker run --rm -v $(WORKING_DIR):/usr/local/app -w /usr/local/app $(SID_BUILDER_IMAGE) ./prototype_build.sh
+```
+
+### prototype_build.sh
+
+```bash
+#!/bin/bash
+
+OOD_PROTOTYPE_ROOT_URL=${ROOT_URL:-/pun/sys/ood_prototype}
+
+cd ondemand/apps/ood_prototype
+bundle config path --local vendor/bundle
+echo "Building with PATH=($OOD_PROTOTYPE_ROOT_URL)"
+#bundle install
+env RAILS_RELATIVE_URL_ROOT="$OOD_PROTOTYPE_ROOT_URL" bin/setup
+cd -
+```
+
+### docker-compose.yml
+
+It is necessary to add a Volume declaration on the [docker-compose.yml](https://github.com/hmdc/ondemand_development/blob/main/docker-compose.yml),
+to install the Passenger app under Open OnDemand.
+
+```yaml
+./ondemand/apps/ood_prototype:/var/www/ood/apps/sys/ood_prototype
+```
+So the `ood` section in the [docker-compose.yml](https://github.com/hmdc/ondemand_development/blob/main/docker-compose.yml) 
+looks like this:
+
+```yaml
+  ood:
+    image: ${SID_OOD_IMAGE}
+    hostname: localhost
+    container_name: dev_ood
+    privileged: true
+    cgroup: host
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+      - ./data:/home/ood/ondemand/data
+      - ./ondemand/apps/dashboard:/var/www/ood/apps/sys/ood
+      - ./config/local/dashboard/.env:/var/www/ood/apps/sys/ood/.env
+      - ./config/local/public:/var/www/ood/public
+      - ./config/local/ondemand.d:/etc/ood/config/ondemand.d
+      - ./config/local/app_overrides:/etc/ood/config/apps/ood
+      - ./dev/metrics:/etc/ood/config/plugins/metrics
+      - ./dev/session_metrics:/etc/ood/config/plugins/session_metrics
+      - ./dev/cluster:/etc/ood/config/plugins/cluster      
+      - ./ondemand/apps/ood_prototype:/var/www/ood/apps/sys/ood_prototype      
+    ports:
+      - "33000:443"
+    expose:
+      - "6817"
+      - "8080"
+      - "80"
+      - "443"
+```
+
+## Deploy the app locally
+
+After setting up the scripts above, just run
+
+```bash
+make build_rails_prototype
+```
+
+and then start Open OnDemand:
+
+```bash
+make start_ood
+```
+
+## Add Passenger app on OOD Navigation Menu
+
+You can declare a [manifest.yml](sample_apps/rails_sample/manifest.yml) file inside the Passenger app directory to
+make Open OnDemand add it to the Navigation menu.
+
+Our [Sample Rails app](sample_apps/rails_sample) has this [manifest.yml](sample_apps/rails_sample/manifest.yml):
+
+```yaml
+---
+name: Rails Prototype
+description: stuff
+icon: fa://hdd-o
+category: Files
+subcategory: Utilities
+```
+
+which means that it will appear under the `Files` dropdown menu with the name `Rails Prototype` and the
+specified icon.
+
+Further documentation on **Manifest** files can be found [here](https://osc.github.io/ood-documentation/latest/how-tos/app-development/interactive/manifest.html?highlight=manifest)
