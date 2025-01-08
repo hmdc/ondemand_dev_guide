@@ -1,24 +1,10 @@
-# README
+# Rails Passenger Sample App
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This Rails app works as a template project repository to create Passenger Apps that work
+under Open OnDemand. This Example provides a simple Homepage with a input field to
+search in [Dataverse Demo website](https://demo.dataverse.org) by using their API
 
-Things you may want to cover:
+* Ruby version 3.1.5
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+You can follow the instructions on the [Rails Passenger Apps Guide](https://github.com/hmdc/ondemand_dev_guide/blob/main/RAILS_PASSENGER_APPS_GUIDE.md)
+to deploy it in Open OnDemand.
