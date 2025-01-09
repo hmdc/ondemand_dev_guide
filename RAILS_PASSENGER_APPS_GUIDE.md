@@ -22,7 +22,7 @@ to the home page and looking at the footer:
 cat /opt/ood/VERSION
 ```
 
-Assuming that Open OnDemand cluster is running version 3.1.7, we can see the Ruby version on the release notes:
+- Assuming that Open OnDemand cluster is running version 3.1.7, we can see the Ruby version on the release notes:
 [https://osc.github.io/ood-documentation/latest/release-notes/v3.1-release-notes.html#dependency-updates](https://osc.github.io/ood-documentation/latest/release-notes/v3.1-release-notes.html#dependency-updates). 
 
 Here we can read that the Ruby version is **3.1**
