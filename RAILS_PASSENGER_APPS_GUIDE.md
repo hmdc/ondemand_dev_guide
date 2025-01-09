@@ -9,14 +9,20 @@ and deploy it in your local environment.
 There is a [Rails Sample app](sample_apps/rails_sample) in this repository that you can use as 
 a starting point to create your own app.
 
-### Determine the Ruby version available in the On Demand Cluster
+### Determine the Ruby version available in the Open OnDemand Cluster
 
 - The first step is to determine what is the OnDemand version running in your cluster. You can see that by browsing 
 to the home page and looking at the footer:
 
 ![Local Image](images/rails_passenger_apps_guide/01_ood_homepage_with_version.png)
 
-Assuming that Cannon cluster is running OnDemand version 3.1.7, we can see the Ruby version on the release notes:
+- Another way to determine the version is by checking the following file in the Open OnDemand node or container:
+
+```bash
+cat /opt/ood/VERSION
+```
+
+- Assuming that Open OnDemand cluster is running version 3.1.7, we can see the Ruby version on the release notes:
 [https://osc.github.io/ood-documentation/latest/release-notes/v3.1-release-notes.html#dependency-updates](https://osc.github.io/ood-documentation/latest/release-notes/v3.1-release-notes.html#dependency-updates). 
 
 Here we can read that the Ruby version is **3.1**
@@ -70,7 +76,7 @@ rbenv global 3.1.5
 ## Install Ruby on Rails
 
 You can see the available Rails versions here [https://rubygems.org/gems/rails/versions](https://rubygems.org/gems/rails/versions). 
-Since the latest version we can use is 7.2, we'll get the latest minor version available in this moment. For this example, 
+Since the latest version we can use is 7.2, we'll get the latest minor version available at this moment. For this example, 
 we are going to install Rails `7.2.2.1` .
 
 ```bash
@@ -79,7 +85,8 @@ gem install rails -v 7.2.2.1
 
 ### Generate Rails project
 
-We can create a Rails project from scratch or reuse a template repository. To create the application from scratch, we can run this command:
+We can create a Rails project from scratch or reuse the [Rails Sample app](sample_apps/rails_sample). To create 
+the application from scratch, we can run this command:
 
 ```bash
 rails _7.2.2.1_ new project_name
@@ -97,7 +104,8 @@ cd project_name
 rails g controller Home index
 ```
 
-Then, we need to go to `config/routes.rb` file and uncomment and edit the last line with the `root` path to point to the controller and action we have just created:
+Then, we need to go to `config/routes.rb` file and uncomment and edit the last line with the `root` path to point to 
+the controller and action we have just created:
 
 ```ruby
 Rails.application.routes.draw do
@@ -119,7 +127,7 @@ end
 
 ## Comment conflicting gem
 
-The gem `error_highlight` installed by default was causing issues when the application was deployed as a passenger app. 
+The gem `error_highlight` installed by default was causing issues when the application was deployed as a Passenger app. 
 You can comment the gem declaration in the `Gemfile`:
 
 ```ruby
@@ -136,7 +144,8 @@ end
 
 ## Precompile assets
 
-The application will be run under OnDemand as production mode, so, we need to generate the assets to make the application work in that environment. Do this every time you update the assets:
+The application will be run under OnDemand as production mode, so, we need to generate the assets to make the 
+application work in that environment. Do this every time you update the assets:
 
 ```bash
 rake assets:precompile
