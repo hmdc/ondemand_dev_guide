@@ -257,3 +257,54 @@ which means that it will appear under the `Files` dropdown menu with the name `R
 specified icon.
 
 Further documentation on **Manifest** files can be found [here](https://osc.github.io/ood-documentation/latest/how-tos/app-development/interactive/manifest.html?highlight=manifest)
+
+# Developing in your local environment
+
+You can develop the Rails application as a standalone normal Rails app with your IDE. 
+
+- You can run the application in development environment by running this in the console:
+
+```bash
+rails server
+```
+
+The application will be served in `localhost:3000`
+
+Alternatively, if you use RubyMine, you can click on the `Play` button in the top-right bar.
+
+## Debugging Rails applications
+
+### Debugging with RubyMine
+
+If you use RubyMine IDE, it contains its own debugging capabilities. To do that, you can place a breakpoint in
+the line of code you want to debug:
+
+![breakpoint](images/rails_passenger_apps_guide/02_debugger_rubymine_breakpoints.png)
+
+And then click on the `Debug` button on the top-right bar.
+
+Once you make a request that runs that piece of code, the debugger will stop the execution by showing the 
+status of the process.
+
+![debugger working](images/rails_passenger_apps_guide/03_debugger_rubymine_stopped.png)
+
+### IDE-independent debugging
+
+Rails has also IDE-independent debugging capabilities with `debug` and `web-console` gems, included in the 
+default Rails 7.2 applications.
+
+- To use `debug`, you need to add the `debug` gem in your Gemfile and then place the `debugger` method in the piece of 
+code you want to debug and execute the Rails application. Rails Server will stop the execution in that point and you 
+will be able to debug from the terminal, by even invoking `irb` to inspect the variables:
+
+![debug gem](images/rails_passenger_apps_guide/04_debugger_debug_gem.png)
+
+- To use `web-console`, you need to declare that gem in the Gemfile and put `console` in the piece
+of code you want to debug. A Rails Console will be open in the web browser, that will allow you to
+inspect the variables you want.
+
+![web-console method](images/rails_passenger_apps_guide/05_debugger_web_console_method.png)
+
+![web-console browser](images/rails_passenger_apps_guide/06_debugger_web_console_browser.png)
+
+Further details can be found on the [Rails Guides](https://guides.rubyonrails.org/v7.2/debugging_rails_applications.html)
