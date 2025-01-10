@@ -262,7 +262,7 @@ Further documentation on **Manifest** files can be found [here](https://osc.gith
 
 You can develop the application as a standalone Rails app within your IDE. 
 
-- You can run the application in development environment by running this in the console:
+- To run the application in development mode execute the following command in the console:
 
 ```bash
 rails server
