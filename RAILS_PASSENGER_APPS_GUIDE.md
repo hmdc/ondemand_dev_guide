@@ -299,7 +299,7 @@ will be able to debug from the terminal, by even invoking `irb` to inspect the v
 
 ![debug gem](images/rails_passenger_apps_guide/04_debugger_debug_gem.png)
 
-- To use `web-console`, you need to declare that gem in the Gemfile and put `console` in the piece
+- To use `web-console`, you need to declare that gem in the Gemfile and add the `console` statement within the
 of code you want to debug. A Rails Console will be open in the web browser, that will allow you to
 inspect the variables you want.
 
