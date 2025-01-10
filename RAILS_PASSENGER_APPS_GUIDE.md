@@ -276,7 +276,7 @@ Alternatively, if you use RubyMine, you can click on the `Play` button in the to
 
 ### Debugging with RubyMine
 
-If you use RubyMine IDE, it contains its own debugging capabilities. To do that, you can place a breakpoint in
+RubyMine contains its own debugging capabilities. To start debugging, place a breakpoint in
 the line of code you want to debug:
 
 ![breakpoint](images/rails_passenger_apps_guide/02_debugger_rubymine_breakpoints.png)
