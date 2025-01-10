@@ -283,7 +283,7 @@ the line of code you want to debug:
 
 And then click on the `Debug` button on the top-right bar.
 
-Once you make a request that runs that piece of code, the debugger will stop the execution by showing the 
+Make a request with your browser that runs that line of code, the debugger will stop the execution by showing the 
 status of the process.
 
 ![debugger working](images/rails_passenger_apps_guide/03_debugger_rubymine_stopped.png)
