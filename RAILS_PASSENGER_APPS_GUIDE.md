@@ -293,8 +293,8 @@ status of the process.
 Rails has also IDE-independent debugging capabilities with `debug` and `web-console` gems, included in the 
 default Rails 7.2 applications.
 
-- To use `debug`, add the `debug` gem in your Gemfile and then place the `debugger` statement in the within the 
-code you want to debug and execute the Rails application. Rails Server will stop the execution in that point and you 
+- To use `debug`, add the `debug` gem in your Gemfile and then place the `debugger` statement within the 
+code you want to debug and execute the Rails application. Rails Server will stop the execution in that point, and you 
 will be able to debug from the terminal, by even invoking `irb` to inspect the variables:
 
 ![debug gem](images/rails_passenger_apps_guide/04_debugger_debug_gem.png)
