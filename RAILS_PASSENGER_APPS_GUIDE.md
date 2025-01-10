@@ -260,7 +260,7 @@ Further documentation on **Manifest** files can be found [here](https://osc.gith
 
 # Developing in your local environment
 
-You can develop the Rails application as a standalone normal Rails app with your IDE. 
+You can develop the application as a standalone Rails app within your IDE. 
 
 - You can run the application in development environment by running this in the console:
 
